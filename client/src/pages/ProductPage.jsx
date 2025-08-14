@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { fetchProduct } from '../api'
+import { addToCart } from '../cart'
 
 export default function ProductPage() {
     const { slug } = useParams()
@@ -23,6 +24,10 @@ export default function ProductPage() {
                 <div style={{ opacity: 0.7, marginBottom: 8 }}>{p.category?.name}</div>
                 <div style={{ fontWeight: 700, fontSize: 20 }}>${(p.priceCents / 100).toFixed(2)}</div>
                 <p style={{ marginTop: 12 }}>{p.description}</p>
+                <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
+                    <button onClick={() => addToCart(p, 1)}>Add to Cart</button>
+                    <Link to="/cart">Go to cart →</Link>
+                </div>
                 <Link to="/" style={{ display: 'inline-block', marginTop: 16 }}>← Back to catalog</Link>
             </div>
         </div>

@@ -13,8 +13,13 @@ app.use(express.json());
 app.get('/api/health', (req, res) => res.json({ ok: true, ts: new Date().toISOString() }));
 
 app.get('/api/categories', async (_req, res) => {
-    try { res.json(await prisma.category.findMany({ orderBy: { name: 'asc' } })); }
-    catch { res.status(500).json({ error: 'Failed to load categories' }); }
+    try {
+        const cats = await prisma.category.findMany({ orderBy: { name: 'asc' } });
+        res.json(cats);
+    } catch (e) {
+        console.error('GET /api/categories error:', e);
+        res.status(500).json({ error: 'Failed to load categories' });
+    }
 });
 
 app.get('/api/products', async (req, res) => {
@@ -48,3 +53,65 @@ app.get('/api/products/:slug', async (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`API running on http://localhost:${PORT}`));
+
+
+app.post('/api/orders', async (req, res) => {
+    try {
+        const { items = [], contact = {} } = req.body || {};
+        if (!Array.isArray(items) || items.length === 0) {
+            return res.status(400).json({ error: 'No items provided' });
+        }
+
+        // normalize & validate
+        const clean = items
+            .map(i => ({
+                productId: Number(i.productId),
+                quantity: Math.max(1, Number(i.qty ?? i.quantity ?? 1)),
+            }))
+            .filter(i => Number.isInteger(i.productId) && i.productId > 0);
+
+        if (!clean.length) return res.status(400).json({ error: 'Invalid items' });
+
+        const ids = [...new Set(clean.map(i => i.productId))];
+        const products = await prisma.product.findMany({
+            where: { id: { in: ids }, isActive: true },
+        });
+        if (products.length !== ids.length) {
+            return res.status(400).json({ error: 'Some products not found or inactive' });
+        }
+
+        let totalCents = 0;
+        const orderItemsData = clean.map(i => {
+            const p = products.find(x => x.id === i.productId);
+            const priceCents = p.priceCents;
+            totalCents += priceCents * i.quantity;
+            return { productId: p.id, quantity: i.quantity, priceCents };
+        });
+
+        const order = await prisma.order.create({
+            data: {
+                status: 'PENDING',
+                totalCents,
+                userId: null, // anonymous checkout for now
+                items: { create: orderItemsData },
+            },
+            include: { items: { include: { product: true } } },
+        });
+
+        res.json({
+            id: order.id,
+            totalCents: order.totalCents,
+            items: order.items.map(i => ({
+                id: i.id,
+                productId: i.productId,
+                title: i.product.title,
+                qty: i.quantity,
+                priceCents: i.priceCents,
+            })),
+            contact, // echo back
+        });
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ error: 'Failed to create order' });
+    }
+});
