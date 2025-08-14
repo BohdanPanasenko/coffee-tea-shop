@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: coffee_tea
+    ports:
+      - "5433:5432" # Map host port 5433 to container port 5432 because 5432 is in use by another service (for my work)
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
