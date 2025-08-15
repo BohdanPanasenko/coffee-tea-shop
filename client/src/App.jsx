@@ -31,20 +31,18 @@ export default function App() {
           justifyContent: 'space-between',
           alignItems: 'center',
           gap: 16,
-          margin: 0,            // no extra top gap
-          paddingTop: 0,        // no extra top gap
+          margin: 0,            
+          paddingTop: 0,        
           marginBottom: 16,
         }}
       >
-        {/* LEFT: brand */}
         <Link to="/" style={{ textDecoration: 'none', fontWeight: 700, fontSize: 18 }}>
           ☕ Leaf & Bean
         </Link>
 
-        {/* RIGHT: nav + search + cart */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          {/* Navigation (Coffee / Tea) */}
           <nav style={{ display: 'flex', gap: 14 }}>
+            <Link to="/">All Products</Link>
             {loading ? (
               <span>Loading…</span>
             ) : (
@@ -56,7 +54,6 @@ export default function App() {
             )}
           </nav>
 
-          {/* Search + Cart */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <form onSubmit={onSearch} style={{ display: 'flex', gap: 8 }}>
               <input name="q" placeholder="Search coffee / tea…" />
