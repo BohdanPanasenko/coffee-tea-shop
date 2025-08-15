@@ -20,10 +20,10 @@ export default function Catalog() {
             if (result.total > 0) {
                 const maxPage = Math.ceil(result.total / result.pageSize)
                 if (page > maxPage) {
-                    setParams(prev => { 
-                        const p = new URLSearchParams(prev); 
-                        p.set('page', maxPage.toString()); 
-                        return p 
+                    setParams(prev => {
+                        const p = new URLSearchParams(prev);
+                        p.set('page', maxPage.toString());
+                        return p
                     })
                 }
             }
@@ -71,8 +71,8 @@ export default function Catalog() {
                 ))}
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 12, marginTop: 24 }}>
-                <button 
-                    onClick={prevPage} 
+                <button
+                    onClick={prevPage}
                     disabled={page <= 1}
                     style={{
                         background: 'none',
@@ -85,9 +85,9 @@ export default function Catalog() {
                 >
                     ←
                 </button>
-                <span style={{ 
-                    padding: '8px 16px', 
-                    backgroundColor: '#362424ff', 
+                <span style={{
+                    padding: '8px 16px',
+                    backgroundColor: '#362424ff',
                     borderRadius: '6px',
                     fontWeight: '500',
                     minWidth: '80px',
@@ -95,8 +95,8 @@ export default function Catalog() {
                 }}>
                     Page {data.page}
                 </span>
-                <button 
-                    onClick={nextPage} 
+                <button
+                    onClick={nextPage}
                     disabled={!hasNextPage}
                     style={{
                         background: 'none',
