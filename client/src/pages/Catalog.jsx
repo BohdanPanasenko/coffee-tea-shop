@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { fetchProducts } from '../api'
 
 export default function Catalog() {
+    const FALLBACK_IMG = 'https://placehold.co/800x600?text=Tea'; // little prevention of broken images
     const [data, setData] = useState({ items: [], total: 0, page: 1, pageSize: 12 })
     const [loading, setLoading] = useState(true)
     const [params, setParams] = useSearchParams()
@@ -32,13 +33,18 @@ export default function Catalog() {
                 {
                     {
                         display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
                         gap: 16
                     }
                 }>
                 {data.items.map(p => (
                     <Link key={p.id} to={`/product/${p.slug}`} style={{ border: '1px solid #ddd', borderRadius: 8, overflow: 'hidden', textDecoration: 'none', color: 'inherit' }}>
-                        <img src={p.imageUrl} alt={p.title} style={{ width: '100%', height: 180, objectFit: 'cover' }} />
+                        <img
+                            src={p.imageUrl}
+                            alt={p.title}
+                            style={{ width: '100%', height: 200, objectFit: 'cover' }}
+                            onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = FALLBACK_IMG; }}
+                        />
                         <div style={{ padding: 12 }}>
                             <div style={{ fontWeight: 600 }}>{p.title}</div>
                             <div style={{ fontSize: 12, opacity: 0.7 }}>{p.category?.name}</div>
