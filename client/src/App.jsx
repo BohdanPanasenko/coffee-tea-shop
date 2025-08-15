@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react'
 import { fetchCategories } from './api'
 import { getCount, onCartChange } from './cart'
 
-export default function App() {
+export default function App()
+{
   const [cats, setCats] = useState([])
   const [loading, setLoading] = useState(true)
   const [params, setParams] = useSearchParams()

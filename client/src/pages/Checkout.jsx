@@ -2,19 +2,23 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getCart, clearCart } from '../cart'
 
-export default function Checkout() {
+export default function Checkout()
+{
     const [contact, setContact] = useState({ name: '', email: '', address: '' })
     const [submitting, setSubmitting] = useState(false)
     const [result, setResult] = useState(null)
     const navigate = useNavigate()
     const cart = getCart()
 
-    const onSubmit = async (e) => {
+    const onSubmit = async (e) =>
+    {
         e.preventDefault()
         if (!cart.items.length) return alert('Your cart is empty.')
         setSubmitting(true)
-        try {
-            const res = await fetch('http://localhost:4000/api/orders', {
+        try
+        {
+            const res = await fetch('http://localhost:4000/api/orders',
+                {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -26,14 +30,19 @@ export default function Checkout() {
             if (!res.ok) throw new Error(data.error || 'Order failed')
             setResult(data)
             clearCart()
-        } catch (err) {
+        }
+        catch (err)
+        {
             alert(err.message)
-        } finally {
+        }
+        finally
+        {
             setSubmitting(false)
         }
     }
 
-    if (result) {
+    if (result)
+    {
         return (
             <div>
                 <h2>Order placed ✔</h2>

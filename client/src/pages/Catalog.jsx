@@ -16,7 +16,6 @@ export default function Catalog() {
         setLoading(true)
         fetchProducts({ category, query, page }).then((result) => {
             setData(result)
-            // If we're on a page beyond the total pages, redirect to the last valid page
             if (result.total > 0) {
                 const maxPage = Math.ceil(result.total / result.pageSize)
                 if (page > maxPage) {

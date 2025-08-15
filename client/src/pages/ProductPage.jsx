@@ -3,21 +3,24 @@ import { useParams, Link } from 'react-router-dom'
 import { fetchProduct } from '../api'
 import { addToCart } from '../cart'
 
-export default function ProductPage() {
+export default function ProductPage()
+{
     const { slug } = useParams()
     const [p, setP] = useState(null)
     const [loading, setLoading] = useState(true)
     const [showAddedMessage, setShowAddedMessage] = useState(false)
 
-    useEffect(() => {
+    useEffect(() => 
+    {
         setLoading(true)
         fetchProduct(slug).then(setP).finally(() => setLoading(false))
     }, [slug])
 
-    const handleAddToCart = () => {
+    const handleAddToCart = () =>
+    {
         addToCart(p, 1)
         setShowAddedMessage(true)
-        setTimeout(() => setShowAddedMessage(false), 2000) // Hide after 2 seconds
+        setTimeout(() => setShowAddedMessage(false), 2000) 
     }
 
     if (loading) return <p>Loading…</p>
