@@ -14,14 +14,31 @@ export default function Catalog() {
 
     useEffect(() => {
         setLoading(true)
-        fetchProducts({ category, query, page }).then(setData).finally(() => setLoading(false))
-    }, [category, query, page])
+        fetchProducts({ category, query, page }).then((result) => {
+            setData(result)
+            // If we're on a page beyond the total pages, redirect to the last valid page
+            if (result.total > 0) {
+                const maxPage = Math.ceil(result.total / result.pageSize)
+                if (page > maxPage) {
+                    setParams(prev => { 
+                        const p = new URLSearchParams(prev); 
+                        p.set('page', maxPage.toString()); 
+                        return p 
+                    })
+                }
+            }
+        }).finally(() => setLoading(false))
+    }, [category, query, page, setParams])
 
     const nextPage = () => setParams(prev => { const p = new URLSearchParams(prev); p.set('page', page + 1); return p })
     const prevPage = () => setParams(prev => { const p = new URLSearchParams(prev); p.set('page', Math.max(1, page - 1)); return p })
 
+    // Calculate if there are more pages
+    const totalPages = Math.ceil(data.total / data.pageSize)
+    const hasNextPage = page < totalPages
+
     if (loading) return <p>Loading products…</p>
-    if (!data.items.length) return <p>No products found.</p>
+    if (!data.items.length && page === 1) return <p>No products found.</p>
 
     return (
         <div>
@@ -33,7 +50,7 @@ export default function Catalog() {
                 {
                     {
                         display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
                         gap: 16
                     }
                 }>
@@ -53,10 +70,45 @@ export default function Catalog() {
                     </Link>
                 ))}
             </div>
-            <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
-                <button onClick={prevPage} disabled={page <= 1}>Prev</button>
-                <span>Page {data.page}</span>
-                <button onClick={nextPage} disabled={data.items.length < data.pageSize}>Next</button>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 12, marginTop: 24 }}>
+                <button 
+                    onClick={prevPage} 
+                    disabled={page <= 1}
+                    style={{
+                        background: 'none',
+                        border: 'none',
+                        fontSize: '18px',
+                        cursor: page <= 1 ? 'not-allowed' : 'pointer',
+                        opacity: page <= 1 ? 0.3 : 1,
+                        padding: '8px'
+                    }}
+                >
+                    ←
+                </button>
+                <span style={{ 
+                    padding: '8px 16px', 
+                    backgroundColor: '#362424ff', 
+                    borderRadius: '6px',
+                    fontWeight: '500',
+                    minWidth: '80px',
+                    textAlign: 'center'
+                }}>
+                    Page {data.page}
+                </span>
+                <button 
+                    onClick={nextPage} 
+                    disabled={!hasNextPage}
+                    style={{
+                        background: 'none',
+                        border: 'none',
+                        fontSize: '18px',
+                        cursor: !hasNextPage ? 'not-allowed' : 'pointer',
+                        opacity: !hasNextPage ? 0.3 : 1,
+                        padding: '8px'
+                    }}
+                >
+                    →
+                </button>
             </div>
         </div>
     )
