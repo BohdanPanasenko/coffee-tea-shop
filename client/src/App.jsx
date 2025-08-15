@@ -31,8 +31,8 @@ export default function App() {
           justifyContent: 'space-between',
           alignItems: 'center',
           gap: 16,
-          margin: 0,            
-          paddingTop: 0,        
+          margin: 0,
+          paddingTop: 0,
           marginBottom: 16,
         }}
       >
