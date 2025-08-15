@@ -28,10 +28,17 @@ export default function Catalog() {
                 {category ? category.toUpperCase() : 'All Products'}
                 {query ? ` — results for “${query}”` : ''}
             </h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px,1fr))', gap: 16 }}>
+            <div style=
+                {
+                    {
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+                        gap: 16
+                    }
+                }>
                 {data.items.map(p => (
                     <Link key={p.id} to={`/product/${p.slug}`} style={{ border: '1px solid #ddd', borderRadius: 8, overflow: 'hidden', textDecoration: 'none', color: 'inherit' }}>
-                        <img src={p.imageUrl} alt={p.title} style={{ width: '100%', height: 150, objectFit: 'cover' }} />
+                        <img src={p.imageUrl} alt={p.title} style={{ width: '100%', height: 180, objectFit: 'cover' }} />
                         <div style={{ padding: 12 }}>
                             <div style={{ fontWeight: 600 }}>{p.title}</div>
                             <div style={{ fontSize: 12, opacity: 0.7 }}>{p.category?.name}</div>

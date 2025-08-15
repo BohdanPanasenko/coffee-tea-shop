@@ -24,33 +24,51 @@ export default function App() {
   }
 
   return (
-    <div style={{ maxWidth: 1000, margin: '0 auto', padding: 16 }}>
-      <header style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 16 }}>
-        <Link to="/" style={{ textDecoration: 'none', fontWeight: 700, fontSize: 18 }}>☕ Leaf & Bean</Link>
+    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '12px 16px' }}>
+      <header
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr auto 1fr', // left / CENTER / right
+          alignItems: 'center',
+          gap: 16,
+          margin: 0,            // no extra top gap
+          paddingTop: 0,        // no extra top gap
+          marginBottom: 16,
+        }}
+      >
+        {/* LEFT: brand */}
+        <Link to="/" style={{ textDecoration: 'none', fontWeight: 700, fontSize: 18, justifySelf: 'start' }}>
+          ☕ Leaf & Bean
+        </Link>
 
-        <nav style={{ display: 'flex', gap: 12 }}>
-          {loading ? <span>Loading…</span> : cats.map(c =>
-            <Link
-              key={c.slug}
-              to={{ pathname: '/', search: `?category=${c.slug}` }}
-            >
-              {c.name}
-            </Link>
+        {/* CENTER: nav (Coffee / Tea) */}
+        <nav style={{ display: 'flex', gap: 14, justifySelf: 'center' }}>
+          {loading ? (
+            <span>Loading…</span>
+          ) : (
+            cats.map((c) => (
+              <Link key={c.slug} to={{ pathname: '/', search: `?category=${c.slug}` }}>
+                {c.name}
+              </Link>
+            ))
           )}
         </nav>
 
-        <form onSubmit={onSearch} style={{ marginLeft: 'auto' }}>
-          <input name="q" placeholder="Search coffee / tea…" />
-          <button type="submit" style={{ marginLeft: 8 }}>Search</button>
-        </form>
-
-        <Link to="/cart" style={{ marginLeft: 12 }}>🛒 Cart ({cartCount})</Link>
+        {/* RIGHT: search + cart */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, justifySelf: 'end' }}>
+          <form onSubmit={onSearch} style={{ display: 'flex', gap: 8 }}>
+            <input name="q" placeholder="Search coffee / tea…" />
+            <button type="submit">Search</button>
+          </form>
+          <Link to="/cart">🛒 Cart ({cartCount})</Link>
+        </div>
       </header>
 
       <Outlet />
+
       <footer style={{ marginTop: 24, opacity: 0.7 }}>
         <small>© {new Date().getFullYear()} Leaf & Bean</small>
       </footer>
     </div>
-  )
+  );
 }
