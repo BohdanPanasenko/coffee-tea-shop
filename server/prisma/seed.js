@@ -66,6 +66,120 @@ async function main() {
             imageUrl: '/images/dragon-well.jpg',
             categoryId: tea.id
         },
+        // Additional Coffee Products
+        {
+            title: 'Kenya AA', slug: 'kenya-aa',
+            description: 'Wine-like acidity with black currant notes. 250g whole beans.',
+            priceCents: 1699,
+            imageUrl: '/images/Kenya.jpg',
+            categoryId: coffee.id
+        },
+        {
+            title: 'Costa Rica Tarrazú', slug: 'costa-rica-tarrazu',
+            description: 'Bright acidity with chocolate undertones. 250g whole beans.',
+            priceCents: 1549,
+            imageUrl: '/images/costarica.jpg',
+            categoryId: coffee.id
+        },
+        {
+            title: 'Jamaica Blue Mountain', slug: 'jamaica-blue-mountain',
+            description: 'Mild flavor with exceptional balance. Premium grade. 250g whole beans.',
+            priceCents: 3999,
+            imageUrl: '/images/jamaica-coffee.jpg',
+            categoryId: coffee.id
+        },
+        {
+            title: 'Hawaiian Kona', slug: 'hawaiian-kona',
+            description: 'Smooth, rich flavor with low acidity. 250g whole beans.',
+            priceCents: 2999,
+            imageUrl: '/images/hawai-coffee.jpg',
+            categoryId: coffee.id
+        },
+        {
+            title: 'Yemen Mocha', slug: 'yemen-mocha',
+            description: 'Wine-like body with fruity undertones. 250g whole beans.',
+            priceCents: 2299,
+            imageUrl: '/images/yemen-mocha.jpg',
+            categoryId: coffee.id
+        },
+        {
+            title: 'Panama Geisha', slug: 'panama-geisha',
+            description: 'Floral aroma with tea-like delicacy. Competition grade. 250g whole beans.',
+            priceCents: 4999,
+            imageUrl: '/images/panama-geisha.jpg',
+            categoryId: coffee.id
+        },
+        {
+            title: 'Sumatra Mandheling', slug: 'sumatra-mandheling',
+            description: 'Full-bodied with earthy, herbal notes. 250g whole beans.',
+            priceCents: 1399,
+            imageUrl: '/images/SumatraMandheling.jpg',
+            categoryId: coffee.id
+        },
+        {
+            title: 'Mexico Chiapas', slug: 'mexico-chiapas',
+            description: 'Medium body with nutty, chocolate flavors. 250g whole beans.',
+            priceCents: 1249,
+            imageUrl: '/images/mexico-chiapas.jpg',
+            categoryId: coffee.id
+        },
+        // Additional Tea Products
+        {
+            title: 'Darjeeling First Flush', slug: 'darjeeling-first-flush',
+            description: 'Delicate muscatel flavor with astringent finish. 100g loose leaf.',
+            priceCents: 1899,
+            imageUrl: '/images/DarjeelingFirst.jpg',
+            categoryId: tea.id
+        },
+        {
+            title: 'Oolong Ti Kuan Yin', slug: 'oolong-ti-kuan-yin',
+            description: 'Iron Goddess of Mercy with floral aroma. 50g loose leaf.',
+            priceCents: 1599,
+            imageUrl: '/images/TieGuanYinOolong-BlkLabel-Lifestyle01.jpg',
+            categoryId: tea.id
+        },
+        {
+            title: 'White Peony (Bai Mu Dan)', slug: 'white-peony',
+            description: 'Subtle sweetness with light, refreshing taste. 50g loose leaf.',
+            priceCents: 2199,
+            imageUrl: '/images/Bai-Mu-Dan-4pc.jpg',
+            categoryId: tea.id
+        },
+        {
+            title: 'Pu-erh Aged 10 Years', slug: 'puerh-aged-10',
+            description: 'Earthy, complex flavor from aged fermentation. 357g cake.',
+            priceCents: 3499,
+            imageUrl: '/images/712R5xyACvL._UF1000,1000_QL80_.jpg',
+            categoryId: tea.id
+        },
+        {
+            title: 'English Breakfast Premium', slug: 'english-breakfast-premium',
+            description: 'Robust black tea blend perfect for morning. 100g loose leaf.',
+            priceCents: 1199,
+            imageUrl: '/images/090263.jpg',
+            categoryId: tea.id
+        },
+        {
+            title: 'Gyokuro Premium', slug: 'gyokuro-premium',
+            description: 'Shade-grown Japanese green tea with umami richness. 50g loose leaf.',
+            priceCents: 2999,
+            imageUrl: '/images/gyokuro.jpg',
+            categoryId: tea.id
+        },
+        {
+            title: 'Lapsang Souchong', slug: 'lapsang-souchong',
+            description: 'Distinctive smoky flavor from pine wood smoking. 100g loose leaf.',
+            priceCents: 1399,
+            imageUrl: '/images/packtb627_01.tmb-twg_rs1280.jpg',
+            categoryId: tea.id
+        },
+        {
+            title: 'Chamomile Flowers', slug: 'chamomile-flowers',
+            description: 'Caffeine-free herbal tea with calming properties. 50g dried flowers.',
+            priceCents: 899,
+            imageUrl: '/images/glass-herbal-tea-with-chamomile-flowers-dark-wooden-background_1.jpg',
+            categoryId: tea.id
+        },
     ];
 
     for (const p of products) {
