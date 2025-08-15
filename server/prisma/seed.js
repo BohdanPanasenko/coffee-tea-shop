@@ -38,12 +38,40 @@ async function main() {
             imageUrl: '/images/jasmine.jpg',
             categoryId: tea.id
         },
+        {
+            title: 'Brazilian Santos', slug: 'brazilian-santos',
+            description: 'Smooth, nutty flavor with low acidity. Perfect for espresso. 250g whole beans.',
+            priceCents: 1199,
+            imageUrl: '/images/brazil-santos.jpg',
+            categoryId: coffee.id
+        },
+        {
+            title: 'Guatemala Antigua', slug: 'guatemala-antigua',
+            description: 'Full-bodied with spicy and smoky undertones. 250g whole beans.',
+            priceCents: 1599,
+            imageUrl: '/images/guatemala-antigua.jpg',
+            categoryId: coffee.id
+        },
+        {
+            title: 'Earl Grey Premium', slug: 'earl-grey-premium',
+            description: 'Classic black tea with bergamot oil and cornflower petals. 100g loose leaf.',
+            priceCents: 1299,
+            imageUrl: '/images/earl-grey-premium.jpg',
+            categoryId: tea.id
+        },
+        {
+            title: 'Dragon Well Green Tea', slug: 'dragon-well-green',
+            description: 'Delicate Chinese green tea with fresh, grassy notes. 50g loose leaf.',
+            priceCents: 1099,
+            imageUrl: '/images/dragon-well.jpg',
+            categoryId: tea.id
+        },
     ];
 
     for (const p of products) {
         await prisma.product.upsert({
             where: { slug: p.slug },
-            update: { imageUrl: p.imageUrl }, 
+            update: { imageUrl: p.imageUrl },
             create: p,
         });
     }
