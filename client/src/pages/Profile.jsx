@@ -5,7 +5,7 @@ import { useAuth } from '../hooks/useAuth.jsx'
 export default function Profile() {
     const { user, isLoggedIn, logout } = useAuth()
     const navigate = useNavigate()
-    
+
     const [userInfo, setUserInfo] = useState({
         name: '',
         email: '',
@@ -17,7 +17,6 @@ export default function Profile() {
     const [editForm, setEditForm] = useState({ ...userInfo })
 
     useEffect(() => {
-        // Load user data if logged in (no redirect)
         if (user && isLoggedIn) {
             const initialData = {
                 name: user.name || '',
@@ -34,8 +33,7 @@ export default function Profile() {
         e.preventDefault()
         setUserInfo({ ...editForm })
         setIsEditing(false)
-        
-        // Update user data in localStorage
+
         const updatedUser = { ...user, ...editForm }
         localStorage.setItem('user', JSON.stringify(updatedUser))
     }
@@ -50,7 +48,6 @@ export default function Profile() {
         navigate('/')
     }
 
-    // Show login prompt if not logged in
     if (!isLoggedIn) {
         return (
             <div style={{ maxWidth: 600, margin: '40px auto', padding: '0 20px', textAlign: 'center' }}>
@@ -80,7 +77,7 @@ export default function Profile() {
                     <p style={{ margin: '0 0 24px 0', color: '#6c757d', fontSize: 16 }}>
                         Please log in to access your profile and manage your account information.
                     </p>
-                    <Link 
+                    <Link
                         to="/auth"
                         style={{
                             display: 'inline-block',
@@ -96,7 +93,7 @@ export default function Profile() {
                         🔑 Go to Login Page
                     </Link>
                     <div style={{ marginTop: 20 }}>
-                        <Link 
+                        <Link
                             to="/"
                             style={{
                                 color: '#6c757d',
@@ -142,28 +139,7 @@ export default function Profile() {
                     }}>
                         👤
                     </div>
-                    <button
-                        onClick={handleLogout}
-                        style={{
-                            padding: '8px 16px',
-                            backgroundColor: 'rgba(255,255,255,0.9)',
-                            color: '#385169ff',
-                            border: 'none',
-                            borderRadius: 6,
-                            fontSize: 14,
-                            fontWeight: 500,
-                            cursor: 'pointer',
-                            transition: 'all 0.2s ease'
-                        }}
-                        onMouseOver={(e) => {
-                            e.target.style.backgroundColor = 'white'
-                        }}
-                        onMouseOut={(e) => {
-                            e.target.style.backgroundColor = 'rgba(255,255,255,0.9)'
-                        }}
-                    >
-                        � Logout
-                    </button>
+
                 </div>
                 <h2 style={{ margin: '0 0 8px 0', fontSize: 24, color: 'white' }}>My Profile</h2>
                 <p style={{ margin: 0, color: 'rgba(255,255,255,0.8)' }}>Manage your account information</p>
@@ -313,15 +289,15 @@ export default function Profile() {
                             <div style={{ marginTop: 4 }}>{userInfo.name}</div>
                         </div>
                         <div>
-                                <strong style={{ color: '#b8c8d8ff' }}>Email:</strong>
+                            <strong style={{ color: '#b8c8d8ff' }}>Email:</strong>
                             <div style={{ marginTop: 4 }}>{userInfo.email}</div>
                         </div>
                         <div>
-                                <strong style={{ color: '#b8c8d8ff' }}>Phone:</strong>
+                            <strong style={{ color: '#b8c8d8ff' }}>Phone:</strong>
                             <div style={{ marginTop: 4 }}>{userInfo.phone}</div>
                         </div>
                         <div>
-                                <strong style={{ color: '#b8c8d8ff' }}>Address:</strong>
+                            <strong style={{ color: '#b8c8d8ff' }}>Address:</strong>
                             <div style={{ marginTop: 4 }}>{userInfo.address}</div>
                         </div>
                     </div>

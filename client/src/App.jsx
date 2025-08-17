@@ -4,8 +4,7 @@ import { fetchCategories } from './api'
 import { getCount, onCartChange } from './cart'
 import { useAuth } from './hooks/useAuth.jsx'
 
-export default function App()
-{
+export default function App() {
   const { isLoggedIn, user, logout } = useAuth()
   const [cats, setCats] = useState([])
   const [loading, setLoading] = useState(true)
@@ -68,14 +67,14 @@ export default function App()
               <button type="submit">Search</button>
             </form>
             <Link to="/cart">🛒 Cart ({cartCount})</Link>
-            
+
             {isLoggedIn ? (
               <>
-                <Link 
+                <Link
                   to="/profile"
-                  style={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
                     textDecoration: 'none',
                     padding: '6px 8px',
                     borderRadius: 4,
@@ -108,11 +107,11 @@ export default function App()
                 </button>
               </>
             ) : (
-              <Link 
+              <Link
                 to="/auth"
-                style={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
                   textDecoration: 'none',
                   padding: '6px 8px',
                   borderRadius: 4,

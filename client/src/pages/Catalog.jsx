@@ -32,7 +32,6 @@ export default function Catalog() {
     const nextPage = () => setParams(prev => { const p = new URLSearchParams(prev); p.set('page', page + 1); return p })
     const prevPage = () => setParams(prev => { const p = new URLSearchParams(prev); p.set('page', Math.max(1, page - 1)); return p })
 
-    // Calculate if there are more pages
     const totalPages = Math.ceil(data.total / data.pageSize)
     const hasNextPage = page < totalPages
 

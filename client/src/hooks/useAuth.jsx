@@ -1,9 +1,7 @@
 import { useState, useEffect, createContext, useContext } from 'react'
 
-// Create a context for authentication
 const AuthContext = createContext()
 
-// Custom hook to use the auth context
 export function useAuth() {
   const context = useContext(AuthContext)
   if (!context) {
@@ -12,13 +10,11 @@ export function useAuth() {
   return context
 }
 
-// Auth provider component
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    // Check if user is logged in on component mount
     const savedUser = localStorage.getItem('user')
     if (savedUser) {
       try {
@@ -36,16 +32,16 @@ export function AuthProvider({ children }) {
 
   const login = (userData) => {
     const userWithLogin = { ...userData, isLoggedIn: true }
-    setUser(userWithLogin) // This will trigger re-render in all components
+    setUser(userWithLogin)
     localStorage.setItem('user', JSON.stringify(userWithLogin))
   }
 
   const logout = () => {
-    setUser(null) // This will trigger re-render in all components
+    setUser(null) 
     localStorage.removeItem('user')
   }
 
-  // Calculate isLoggedIn as a computed value that will be reactive
+
   const isLoggedIn = Boolean(user && user.isLoggedIn)
 
   const value = {

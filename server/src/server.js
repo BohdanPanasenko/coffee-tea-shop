@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+app.use(cors({ origin: ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://localhost:5176'], credentials: true }));
 app.use(express.json());
 
 app.get('/api/health', (req, res) => res.json({ ok: true, ts: new Date().toISOString() }));
@@ -61,8 +61,6 @@ app.post('/api/orders', async (req, res) => {
         if (!Array.isArray(items) || items.length === 0) {
             return res.status(400).json({ error: 'No items provided' });
         }
-
-        // normalize & validate
         const clean = items
             .map(i => ({
                 productId: Number(i.productId),
@@ -92,7 +90,7 @@ app.post('/api/orders', async (req, res) => {
             data: {
                 status: 'PENDING',
                 totalCents,
-                userId: null, // anonymous checkout for now
+                userId: null, 
                 items: { create: orderItemsData },
             },
             include: { items: { include: { product: true } } },
@@ -108,7 +106,7 @@ app.post('/api/orders', async (req, res) => {
                 qty: i.quantity,
                 priceCents: i.priceCents,
             })),
-            contact, // echo back
+            contact, 
         });
     } catch (e) {
         console.error(e);
