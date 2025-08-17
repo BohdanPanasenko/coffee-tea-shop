@@ -2,9 +2,10 @@ import { Outlet, Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { fetchCategories } from './api'
 import { getCount, onCartChange } from './cart'
+import { useAuth } from './hooks/useAuth.jsx'
 
-export default function App()
-{
+export default function App() {
+  const { isLoggedIn, user, logout } = useAuth()
   const [cats, setCats] = useState([])
   const [loading, setLoading] = useState(true)
   const [params, setParams] = useSearchParams()
@@ -22,6 +23,11 @@ export default function App()
     const next = new URLSearchParams(params)
     if (q) next.set('query', q); else next.delete('query')
     navigate('/?' + next.toString())
+  }
+
+  const handleLogout = () => {
+    logout()
+    navigate('/')
   }
 
   return (
@@ -61,6 +67,64 @@ export default function App()
               <button type="submit">Search</button>
             </form>
             <Link to="/cart">🛒 Cart ({cartCount})</Link>
+
+            {isLoggedIn ? (
+              <>
+                <Link
+                  to="/profile"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    textDecoration: 'none',
+                    padding: '6px 8px',
+                    borderRadius: 4,
+                    backgroundColor: '#e8f5e8',
+                    border: '1px solid #dee2e6',
+                    color: '#495057',
+                    fontSize: 12
+                  }}
+                  title={user?.name || 'My Profile'}
+                >
+                  👤
+                  <span style={{ marginLeft: 4, fontSize: 11 }}>
+                    {user?.name?.split(' ')[0] || 'Profile'}
+                  </span>
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  style={{
+                    padding: '6px 8px',
+                    backgroundColor: '#f8d7da',
+                    color: '#721c24',
+                    border: '1px solid #f5c6cb',
+                    borderRadius: 4,
+                    fontSize: 12,
+                    cursor: 'pointer'
+                  }}
+                  title="Logout"
+                >
+                  🚪
+                </button>
+              </>
+            ) : (
+              <Link
+                to="/auth"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  textDecoration: 'none',
+                  padding: '6px 8px',
+                  borderRadius: 4,
+                  backgroundColor: '#f8f9fa',
+                  border: '1px solid #dee2e6',
+                  color: '#495057',
+                  fontSize: 12
+                }}
+                title="Sign In"
+              >
+                🔑 Login
+              </Link>
+            )}
           </div>
         </div>
       </header>
