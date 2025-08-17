@@ -144,7 +144,7 @@ export default function ReviewForm({ productSlug, onReviewAdded }) {
           disabled={loading || comment.trim().length < 10}
           style={{
             padding: '10px 20px',
-            backgroundColor: loading || comment.trim().length < 10 ? '#6c757d' : '#385169ff',
+            backgroundColor: loading || comment.trim().length < 10 ? '#63c78cff' : '#385169ff',
             color: 'white',
             border: 'none',
             borderRadius: 4,
