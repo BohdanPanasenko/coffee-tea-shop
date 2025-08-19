@@ -4,6 +4,7 @@ import { fetchProduct } from '../api'
 import { addToCart } from '../cart'
 import ReviewForm from '../components/ReviewForm.jsx'
 import ReviewList from '../components/ReviewList.jsx'
+import '../styles/pages/product.css'
 
 export default function ProductPage()
 {
@@ -54,52 +55,43 @@ export default function ProductPage()
     if (!p) return <p>Not found</p>
 
     return (
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '400px 1fr', gap: 32, alignItems: 'start', marginBottom: 40 }}>
-                <img src={p.imageUrl} alt={p.title} style={{ width: '100%', maxHeight: '400px', borderRadius: 8, objectFit: 'cover' }} />
+        <div className="product-page">
+            <div className="product-grid">
+                <img src={p.imageUrl} alt={p.title} className="product-image" />
                 <div>
-                    <h2 style={{ margin: '0 0 8px 0' }}>{p.title}</h2>
+                    <h2 className="product-title">{p.title}</h2>
                     
                     {/* Rating Display */}
                     {p.reviewCount > 0 && (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-                            <div style={{ display: 'flex' }}>
+                        <div className="rating">
+                            <div className="rating__stars">
                                 {renderStars(p.avgRating)}
                             </div>
-                            <span style={{ color: '#6c757d', fontSize: 14 }}>
+                            <span className="rating__text">
                                 {p.avgRating.toFixed(1)} ({p.reviewCount} review{p.reviewCount !== 1 ? 's' : ''})
                             </span>
                         </div>
                     )}
                     
-                    <div style={{ opacity: 0.7, marginBottom: 8 }}>{p.category?.name}</div>
-                    <div style={{ fontWeight: 700, fontSize: 20 }}>${(p.priceCents / 100).toFixed(2)}</div>
-                    <p style={{ marginTop: 12 }}>{p.description}</p>
-                    <div style={{ marginTop: 16 }}>
-                        <button onClick={handleAddToCart} style={{ marginBottom: 12, display: 'block' }}>Add to Cart</button>
+                    <div className="product-category">{p.category?.name}</div>
+                    <div className="product-price">${(p.priceCents / 100).toFixed(2)}</div>
+                    <p className="product-description">{p.description}</p>
+                    <div className="product-actions">
+                        <button onClick={handleAddToCart} className="product-add-btn">Add to Cart</button>
                         {showAddedMessage && (
-                            <div style={{
-                                color: '#22c55e',
-                                fontWeight: '500',
-                                marginBottom: 8,
-                                padding: '8px 12px',
-                                backgroundColor: '#dcfce7',
-                                border: '1px solid #22c55e',
-                                borderRadius: '6px',
-                                fontSize: '14px'
-                            }}>
+                            <div className="added-msg">
                                 ✓ Added to cart!
                             </div>
                         )}
-                        <Link to="/cart" style={{ display: 'block', marginBottom: 16 }}>Go to cart →</Link>
+                        <Link to="/cart" className="go-to-cart-link">Go to cart →</Link>
                     </div>
-                    <Link to="/" style={{ display: 'inline-block', marginTop: 0 }}>← Back to catalog</Link>
+                    <Link to="/" className="back-link">← Back to catalog</Link>
                 </div>
             </div>
 
             {/* Reviews Section */}
-            <div style={{ borderTop: '1px solid #dee2e6', paddingTop: 40 }}>
-                <h2 style={{ margin: '0 0 20px 0', fontSize: 24 }}>Reviews & Ratings</h2>
+            <div className="reviews">
+                <h2 className="reviews-title">Reviews & Ratings</h2>
                 
                 <ReviewForm 
                     productSlug={slug} 

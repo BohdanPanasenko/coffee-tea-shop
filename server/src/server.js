@@ -6,9 +6,20 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const app = express();
 const PORT = process.env.PORT || 4000;
+const CLIENT_ORIGINS = (process.env.CLIENT_ORIGINS || 'http://localhost:5173').split(',');
 
-app.use(cors({ origin: ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://localhost:5176'], credentials: true }));
+app.use(cors({ origin: CLIENT_ORIGINS, credentials: true }));
 app.use(express.json());
+
+// Small set of security headers 
+app.use((req, res, next) => {
+    res.set({
+        'X-Content-Type-Options': 'nosniff',
+        'X-Frame-Options': 'DENY',
+        'Referrer-Policy': 'no-referrer-when-downgrade',
+    });
+    next();
+});
 
 app.get('/api/health', (req, res) => res.json({ ok: true, ts: new Date().toISOString() }));
 
@@ -101,6 +112,9 @@ app.post('/api/products/:slug/reviews', async (req, res) => {
         if (!userEmail) {
             return res.status(401).json({ error: 'User must be logged in to review' });
         }
+        if (typeof userEmail !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userEmail)) {
+            return res.status(400).json({ error: 'Invalid user email' });
+        }
         
         if (!rating || rating < 1 || rating > 5) {
             return res.status(400).json({ error: 'Rating must be between 1 and 5' });
@@ -159,7 +173,10 @@ app.post('/api/products/:slug/reviews', async (req, res) => {
     }
 });
 
-app.listen(PORT, () => console.log(`API running on http://localhost:${PORT}`));
+// Start server only when not under test
+if (process.env.NODE_ENV !== 'test') {
+    app.listen(PORT, () => console.log(`API running on http://localhost:${PORT}`));
+}
 
 
 app.post('/api/orders', async (req, res) => {
@@ -167,6 +184,12 @@ app.post('/api/orders', async (req, res) => {
         const { items = [], contact = {} } = req.body || {};
         if (!Array.isArray(items) || items.length === 0) {
             return res.status(400).json({ error: 'No items provided' });
+        }
+
+        // Optional email validation if contact.email present
+        if (contact && typeof contact.email === 'string') {
+            const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email);
+            if (!ok) return res.status(400).json({ error: 'Invalid email' });
         }
         const clean = items
             .map(i => ({
@@ -220,3 +243,5 @@ app.post('/api/orders', async (req, res) => {
         res.status(500).json({ error: 'Failed to create order' });
     }
 });
+
+module.exports = app;

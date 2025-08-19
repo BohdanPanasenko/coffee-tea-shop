@@ -39,8 +39,35 @@ cd e:\coffee-tea-shop\client
 npm i
 $env:VITE_API_URL="http://localhost:4000/api"; npm run dev
 ```
-
 Open http://localhost:5173
+
+## Tests
+
+Server tests (Jest + Supertest):
+
+```powershell
+cd e:\coffee-tea-shop\server
+npm i
+npm run test
+```
+> server@1.0.0 test
+> cross-env NODE_ENV=test jest --runInBand
+
+ PASS  tests/orders.test.js
+  ● Console
+
+    console.log
+      [dotenv@17.2.1] injecting env (2) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env
+' }
+
+      at _log (node_modules/dotenv/lib/main.js:139:11)
+
+
+Test Suites: 1 passed, 1 total
+Tests:       2 passed, 2 total
+Snapshots:   0 total
+Time:        0.576 s, estimated 1 s
+
 
 ## Environment
 - `server/.env`
@@ -53,4 +80,4 @@ PORT=4000
 ## Notes
 - Reviews and auth are minimal; localStorage login for demo.
 - Orders validate product existence and email and return totals.
-- Update images in `server/public/images` or use remote URLs.
+- Update images in `server/public/images` 

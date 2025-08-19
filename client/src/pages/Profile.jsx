@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth.jsx'
+import '../styles/pages/profile.css'
 
 export default function Profile() {
     const { user, isLoggedIn, logout } = useAuth()
@@ -50,59 +51,18 @@ export default function Profile() {
 
     if (!isLoggedIn) {
         return (
-            <div style={{ maxWidth: 600, margin: '40px auto', padding: '0 20px', textAlign: 'center' }}>
-                <div style={{
-                    backgroundColor: '#f8f9fa',
-                    border: '2px solid #dee2e6',
-                    borderRadius: 12,
-                    padding: 40
-                }}>
-                    <div style={{
-                        width: 80,
-                        height: 80,
-                        backgroundColor: '#6c757d',
-                        borderRadius: '50%',
-                        margin: '0 auto 20px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: 32,
-                        color: 'white'
-                    }}>
-                        🔒
-                    </div>
-                    <h2 style={{ margin: '0 0 16px 0', fontSize: 24, color: '#495057' }}>
-                        You are not logged in
-                    </h2>
-                    <p style={{ margin: '0 0 24px 0', color: '#6c757d', fontSize: 16 }}>
+            <div className="profile-guest">
+                <div className="profile-guest-card">
+                    <div className="profile-guest-avatar">🔒</div>
+                    <h2 className="profile-guest-title">You are not logged in</h2>
+                    <p className="profile-guest-text">
                         Please log in to access your profile and manage your account information.
                     </p>
-                    <Link
-                        to="/auth"
-                        style={{
-                            display: 'inline-block',
-                            padding: '12px 24px',
-                            backgroundColor: '#385169ff',
-                            color: 'white',
-                            textDecoration: 'none',
-                            borderRadius: 6,
-                            fontSize: 16,
-                            fontWeight: 500
-                        }}
-                    >
+                    <Link to="/auth" className="profile-guest-login">
                         🔑 Go to Login Page
                     </Link>
-                    <div style={{ marginTop: 20 }}>
-                        <Link
-                            to="/"
-                            style={{
-                                color: '#6c757d',
-                                textDecoration: 'none',
-                                fontSize: 14
-                            }}
-                        >
-                            ← Continue shopping
-                        </Link>
+                    <div className="profile-guest-continue">
+                        <Link to="/">← Continue shopping</Link>
                     </div>
                 </div>
             </div>
@@ -110,66 +70,20 @@ export default function Profile() {
     }
 
     return (
-        <div style={{ maxWidth: 800, margin: '0 auto', padding: '20px 0' }}>
-            <div style={{
-                backgroundColor: '#385169ff',
-                padding: 24,
-                borderRadius: 8,
-                marginBottom: 24,
-                textAlign: 'center',
-                position: 'relative'
-            }}>
-                <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: 20,
-                    marginBottom: 16
-                }}>
-                    <div style={{
-                        width: 80,
-                        height: 80,
-                        backgroundColor: '#6c757d',
-                        borderRadius: '50%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: 32,
-                        color: 'white'
-                    }}>
-                        👤
-                    </div>
-
+        <div className="profile-container">
+            <div className="profile-header">
+                <div className="profile-header-row">
+                    <div className="profile-avatar">👤</div>
                 </div>
-                <h2 style={{ margin: '0 0 8px 0', fontSize: 24, color: 'white' }}>My Profile</h2>
-                <p style={{ margin: 0, color: 'rgba(255,255,255,0.8)' }}>Manage your account information</p>
+                <h2 className="profile-header-title">My Profile</h2>
+                <p className="profile-header-subtitle">Manage your account information</p>
             </div>
 
-            <div style={{
-                backgroundColor: '#385169ff',
-                border: '1px solid #dee2e6',
-                borderRadius: 8,
-                padding: 24
-            }}>
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginBottom: 20
-                }}>
-                    <h3 style={{ margin: 0 }}>Personal Information</h3>
+            <div className="profile-card">
+                <div className="profile-card-header">
+                    <h3>Personal Information</h3>
                     {!isEditing && (
-                        <button
-                            onClick={() => setIsEditing(true)}
-                            style={{
-                                padding: '8px 16px',
-                                backgroundColor: '#575d63ff',
-                                color: 'white',
-                                border: 'none',
-                                borderRadius: 4,
-                                cursor: 'pointer'
-                            }}
-                        >
+                        <button onClick={() => setIsEditing(true)} className="edit-btn">
                             Edit Profile
                         </button>
                     )}
@@ -177,144 +91,80 @@ export default function Profile() {
 
                 {isEditing ? (
                     <form onSubmit={handleSave}>
-                        <div style={{ display: 'grid', gap: 16 }}>
+                        <div className="profile-form-grid">
                             <div>
-                                <label style={{ display: 'block', marginBottom: 4, fontWeight: 500 }}>
-                                    Full Name
-                                </label>
+                                <label className="profile-label">Full Name</label>
                                 <input
                                     type="text"
                                     value={editForm.name}
                                     onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
-                                    style={{
-                                        width: '100%',
-                                        padding: '8px 12px',
-                                        border: '1px solid #ced4da',
-                                        borderRadius: 4,
-                                        fontSize: 14
-                                    }}
+                                    className="profile-input"
                                 />
                             </div>
 
                             <div>
-                                <label style={{ display: 'block', marginBottom: 4, fontWeight: 500 }}>
-                                    Email
-                                </label>
+                                <label className="profile-label">Email</label>
                                 <input
                                     type="email"
                                     value={editForm.email}
                                     onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
-                                    style={{
-                                        width: '100%',
-                                        padding: '8px 12px',
-                                        border: '1px solid #ced4da',
-                                        borderRadius: 4,
-                                        fontSize: 14
-                                    }}
+                                    className="profile-input"
                                 />
                             </div>
 
                             <div>
-                                <label style={{ display: 'block', marginBottom: 4, fontWeight: 500 }}>
-                                    Phone
-                                </label>
+                                <label className="profile-label">Phone</label>
                                 <input
                                     type="tel"
                                     value={editForm.phone}
                                     onChange={(e) => setEditForm({ ...editForm, phone: e.target.value })}
-                                    style={{
-                                        width: '100%',
-                                        padding: '8px 12px',
-                                        border: '1px solid #ced4da',
-                                        borderRadius: 4,
-                                        fontSize: 14
-                                    }}
+                                    className="profile-input"
                                 />
                             </div>
 
                             <div>
-                                <label style={{ display: 'block', marginBottom: 4, fontWeight: 500 }}>
-                                    Address
-                                </label>
+                                <label className="profile-label">Address</label>
                                 <textarea
                                     value={editForm.address}
                                     onChange={(e) => setEditForm({ ...editForm, address: e.target.value })}
                                     rows={3}
-                                    style={{
-                                        width: '100%',
-                                        padding: '8px 12px',
-                                        border: '1px solid #ced4da',
-                                        borderRadius: 4,
-                                        fontSize: 14,
-                                        resize: 'vertical'
-                                    }}
+                                    className="profile-textarea"
                                 />
                             </div>
                         </div>
 
-                        <div style={{ display: 'flex', gap: 12, marginTop: 20 }}>
-                            <button
-                                type="submit"
-                                style={{
-                                    padding: '10px 20px',
-                                    backgroundColor: '#28a745',
-                                    color: 'white',
-                                    border: 'none',
-                                    borderRadius: 4,
-                                    cursor: 'pointer'
-                                }}
-                            >
-                                Save Changes
-                            </button>
-                            <button
-                                type="button"
-                                onClick={handleCancel}
-                                style={{
-                                    padding: '10px 20px',
-                                    backgroundColor: '#6c757d',
-                                    color: 'white',
-                                    border: 'none',
-                                    borderRadius: 4,
-                                    cursor: 'pointer'
-                                }}
-                            >
-                                Cancel
-                            </button>
+                        <div className="profile-actions">
+                            <button type="submit" className="btn-save">Save Changes</button>
+                            <button type="button" onClick={handleCancel} className="btn-cancel">Cancel</button>
                         </div>
                     </form>
                 ) : (
-                    <div style={{ display: 'grid', gap: 16 }}>
+                    <div className="profile-info-grid">
                         <div>
-                            <strong style={{ color: '#b8c8d8ff' }}>Full Name:</strong>
-                            <div style={{ marginTop: 4 }}>{userInfo.name}</div>
+                            <strong className="profile-info-label">Full Name:</strong>
+                            <div className="profile-info-value">{userInfo.name}</div>
                         </div>
                         <div>
-                            <strong style={{ color: '#b8c8d8ff' }}>Email:</strong>
-                            <div style={{ marginTop: 4 }}>{userInfo.email}</div>
+                            <strong className="profile-info-label">Email:</strong>
+                            <div className="profile-info-value">{userInfo.email}</div>
                         </div>
                         <div>
-                            <strong style={{ color: '#b8c8d8ff' }}>Phone:</strong>
-                            <div style={{ marginTop: 4 }}>{userInfo.phone}</div>
+                            <strong className="profile-info-label">Phone:</strong>
+                            <div className="profile-info-value">{userInfo.phone}</div>
                         </div>
                         <div>
-                            <strong style={{ color: '#b8c8d8ff' }}>Address:</strong>
-                            <div style={{ marginTop: 4 }}>{userInfo.address}</div>
+                            <strong className="profile-info-label">Address:</strong>
+                            <div className="profile-info-value">{userInfo.address}</div>
                         </div>
                     </div>
                 )}
             </div>
 
-            <div style={{
-                backgroundColor: '#385169ff',
-                border: '1px solid #dee2e6',
-                borderRadius: 8,
-                padding: 24,
-                marginTop: 24
-            }}>
-                <h3 style={{ margin: '0 0 16px 0' }}>Order History</h3>
-                <div style={{ color: '#6c757d', textAlign: 'center', padding: 40 }}>
+            <div className="profile-orders">
+                <h3>Order History</h3>
+                <div className="profile-orders-empty">
                     <p>No orders yet</p>
-                    <p style={{ fontSize: 14 }}>Start shopping to see your order history here!</p>
+                    <p className="hint">Start shopping to see your order history here!</p>
                 </div>
             </div>
         </div>

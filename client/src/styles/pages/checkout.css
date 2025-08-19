@@ -1,0 +1,6 @@
+.checkout-form {
+  display: grid;
+  gap: 12px;
+  max-width: 420px;
+  margin-top: 12px;
+}

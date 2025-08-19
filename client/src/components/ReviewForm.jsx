@@ -3,6 +3,7 @@ import { useAuth } from '../hooks/useAuth.jsx'
 
 export default function ReviewForm({ productSlug, onReviewAdded }) {
   const { isLoggedIn, user } = useAuth()
+  const API = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_URL) || 'http://localhost:4000/api'
   const [rating, setRating] = useState(5)
   const [comment, setComment] = useState('')
   const [loading, setLoading] = useState(false)
@@ -31,7 +32,7 @@ export default function ReviewForm({ productSlug, onReviewAdded }) {
     setLoading(true)
 
     try {
-      const response = await fetch(`http://localhost:4000/api/products/${productSlug}/reviews`, {
+      const response = await fetch(`${API}/products/${productSlug}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

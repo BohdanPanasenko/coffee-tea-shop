@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getCart, clearCart } from '../cart'
+import '../styles/pages/checkout.css'
 
 export default function Checkout()
 {
@@ -56,7 +57,7 @@ export default function Checkout()
     return (
         <div>
             <h2>Checkout</h2>
-            <form onSubmit={onSubmit} style={{ display: 'grid', gap: 12, maxWidth: 420, marginTop: 12 }}>
+            <form onSubmit={onSubmit} className="checkout-form">
                 <input placeholder="Full name" value={contact.name} onChange={e => setContact({ ...contact, name: e.target.value })} required />
                 <input placeholder="Email" type="email" value={contact.email} onChange={e => setContact({ ...contact, email: e.target.value })} required />
                 <textarea placeholder="Address" value={contact.address} onChange={e => setContact({ ...contact, address: e.target.value })} rows={4} required />

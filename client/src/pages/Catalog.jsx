@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { fetchProducts } from '../api'
+import '../styles/pages/catalog.css'
 
 export default function Catalog() {
     const FALLBACK_IMG = 'https://placehold.co/800x600?text=Tea'; // little prevention of broken images
@@ -40,71 +41,38 @@ export default function Catalog() {
 
     return (
         <div>
-            <h2 style={{ marginBottom: 12 }}>
+            <h2 className="catalog-heading">
                 {category ? category.toUpperCase() : 'All Products'}
                 {query ? ` — results for “${query}”` : ''}
             </h2>
-            <div style=
-                {
-                    {
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                        gap: 16
-                    }
-                }>
+            <div className="catalog-grid">
                 {data.items.map(p => (
-                    <Link key={p.id} to={`/product/${p.slug}`} style={{ border: '1px solid #ddd', borderRadius: 8, overflow: 'hidden', textDecoration: 'none', color: 'inherit' }}>
-                        <img
-                            src={p.imageUrl}
-                            alt={p.title}
-                            style={{ width: '100%', height: 200, objectFit: 'cover' }}
-                            onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = FALLBACK_IMG; }}
-                        />
-                        <div style={{ padding: 12 }}>
-                            <div style={{ fontWeight: 600 }}>{p.title}</div>
-                            <div style={{ fontSize: 12, opacity: 0.7 }}>{p.category?.name}</div>
-                            <div style={{ marginTop: 8 }}>${(p.priceCents / 100).toFixed(2)}</div>
+                    <Link key={p.id} to={`/product/${p.slug}`} className="product-card">
+                        <div className="product-card__imgwrap">
+                            <img
+                                src={p.imageUrl}
+                                alt={p.title}
+                                loading="lazy"
+                                className="product-card__img"
+                                onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = FALLBACK_IMG; }}
+                            />
+                        </div>
+                        <div className="product-card__body">
+                            <div className="product-card__title">{p.title}</div>
+                            <div className="product-card__category">{p.category?.name}</div>
+                            <div className="product-card__price">${(p.priceCents / 100).toFixed(2)}</div>
                         </div>
                     </Link>
                 ))}
             </div>
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 12, marginTop: 24 }}>
-                <button
-                    onClick={prevPage}
-                    disabled={page <= 1}
-                    style={{
-                        background: 'none',
-                        border: 'none',
-                        fontSize: '18px',
-                        cursor: page <= 1 ? 'not-allowed' : 'pointer',
-                        opacity: page <= 1 ? 0.3 : 1,
-                        padding: '8px'
-                    }}
-                >
+            <div className="pager">
+                <button onClick={prevPage} disabled={page <= 1} className="pager-btn" aria-label="Previous page">
                     ←
                 </button>
-                <span style={{
-                    padding: '8px 16px',
-                    backgroundColor: '#362424ff',
-                    borderRadius: '6px',
-                    fontWeight: '500',
-                    minWidth: '80px',
-                    textAlign: 'center'
-                }}>
+                <span className="pager__page">
                     Page {data.page}
                 </span>
-                <button
-                    onClick={nextPage}
-                    disabled={!hasNextPage}
-                    style={{
-                        background: 'none',
-                        border: 'none',
-                        fontSize: '18px',
-                        cursor: !hasNextPage ? 'not-allowed' : 'pointer',
-                        opacity: !hasNextPage ? 0.3 : 1,
-                        padding: '8px'
-                    }}
-                >
+                <button onClick={nextPage} disabled={!hasNextPage} className="pager-btn" aria-label="Next page">
                     →
                 </button>
             </div>

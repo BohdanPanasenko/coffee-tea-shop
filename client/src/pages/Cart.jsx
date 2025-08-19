@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { getCart, setQty, removeFromCart, getSubtotalCents } from '../cart'
+import '../styles/pages/cart.css'
 
 export default function Cart() {
     const [cart, setCart] = useState(getCart())
@@ -33,21 +34,28 @@ export default function Cart() {
     return (
         <div>
             <h2>Your Cart</h2>
-            <div style={{ display: 'grid', gap: 12, marginTop: 12 }}>
+            <div className="cart-list">
                 {cart.items.map(it => (
-                    <div key={it.productId} style={{ display: 'flex', gap: 12, alignItems: 'center', border: '1px solid #ddd', borderRadius: 8, padding: 8 }}>
-                        <img src={it.imageUrl} alt="" style={{ width: 80, height: 60, objectFit: 'cover', borderRadius: 6 }} />
-                        <div style={{ flex: 1 }}>
-                            <div style={{ fontWeight: 600 }}>{it.title}</div>
+                    <div key={it.productId} className="cart-item">
+                        <img src={it.imageUrl} alt={it.title} className="cart-item-image" />
+                        <div className="cart-item-info">
+                            <div className="cart-item-title">{it.title}</div>
                             <div>${(it.priceCents / 100).toFixed(2)}</div>
                         </div>
-                        <input type="number" min="1" value={it.qty} onChange={e => onChangeQty(it.productId, e.target.value)} style={{ width: 70 }} />
+                        <input
+                            type="number"
+                            min="1"
+                            value={it.qty}
+                            onChange={e => onChangeQty(it.productId, e.target.value)}
+                            className="qty-input"
+                            aria-label={`Quantity for ${it.title}`}
+                        />
                         <button onClick={() => onRemove(it.productId)}>Remove</button>
                     </div>
                 ))}
             </div>
 
-            <div style={{ marginTop: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className="cart-summary">
                 <strong>Subtotal: ${(getSubtotalCents() / 100).toFixed(2)}</strong>
                 <button onClick={() => navigate('/checkout')}>Checkout →</button>
             </div>

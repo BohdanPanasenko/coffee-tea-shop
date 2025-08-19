@@ -32,6 +32,7 @@ export default function App() {
 
   return (
     <div style={{ margin: '0 auto', padding: '12px 16px' }}>
+      <a href="#main" className="sr-only">Skip to content</a>
       <header
         style={{
           display: 'flex',
@@ -62,9 +63,9 @@ export default function App() {
           </nav>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <form onSubmit={onSearch} style={{ display: 'flex', gap: 8 }}>
-              <input name="q" placeholder="Search coffee / tea…" />
-              <button type="submit">Search</button>
+            <form onSubmit={onSearch} style={{ display: 'flex', gap: 8 }} role="search" aria-label="Product search">
+              <input name="q" placeholder="Search coffee / tea…" aria-label="Search" />
+              <button type="submit" aria-label="Search products">Search</button>
             </form>
             <Link to="/cart">🛒 Cart ({cartCount})</Link>
 
@@ -129,7 +130,9 @@ export default function App() {
         </div>
       </header>
 
-      <Outlet />
+      <main id="main">
+        <Outlet />
+      </main>
 
       <footer style={{ marginTop: 24, opacity: 0.7 }}>
         <small>© {new Date().getFullYear()} Leaf & Bean</small>
