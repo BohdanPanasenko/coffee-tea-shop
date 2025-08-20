@@ -77,7 +77,4 @@ CLIENT_ORIGINS=http://localhost:5173
 PORT=4000
 ```
 
-## Notes
-- Reviews and auth are minimal; localStorage login for demo.
-- Orders validate product existence and email and return totals.
-- Update images in `server/public/images` 
+
